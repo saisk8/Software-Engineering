@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "definations.h"
 
 void getRecords(FILE *in, FILE *out, int n) {
     for (int i = 0; i < n; i++) {
@@ -11,7 +10,23 @@ void getRecords(FILE *in, FILE *out, int n) {
         fscanf(in, "%s", student->address.street);
         fscanf(in, "%s", student->address.city);
         fscanf(in, "%s", student->address.state);
-
+        student->total = student->m1 + student->m2;
+        student->avg = student->total / 200;
+        if (student->avg >= 0.85) {
+            student->grade = 'A';
+        }
+        if (student->avg < 0.85 && student->avg >= 0.65) {
+            student->grade = 'B';
+        }
+        if (student->avg < 0.65 && student->avg >= 0.55) {
+            student->grade = 'C';
+        }
+        if (student->avg < 0.55 && student->avg >= 0.35) {
+            student->grade = 'D';
+        }
+        if (student->avg < 0.35) {
+            student->grade = 'F';
+        }
         // Write the info to a file
         fwrite(student, sizeof(struct Student), 1, out);
         free(student);
