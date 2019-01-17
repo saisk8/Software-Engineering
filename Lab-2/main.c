@@ -6,6 +6,9 @@
 #include "storage.c"
 
 int main() {
+    FILE *in, *out, *temp;
+    int n, roll, choice;
+    char grade;
     while (1) {
         printf("1.Add records\n");
         printf("2.List all records\n");
@@ -14,51 +17,52 @@ int main() {
         printf("5.Modify record\n");
         printf("0. exit\n");
         printf("Enter your choice: ");
-        char choice = getchar();
-        FILE *in, *out, *temp;
-        int n, roll;
-        char grade;
-        printf("Enter the number of records: ");
-        scanf("%d", &n);
+        scanf("%d", &choice);
         switch (choice) {
-            case '1':
+            case 1:
                 in = fopen("in.txt", "r");
-                out = fopen("student.dat", "w");
+                fscanf(in, "%d", &n);
+                out = fopen("student", "w");
                 getRecords(in, out, n);
                 fclose(in);
                 fclose(out);
                 printf("Records added\n");
                 break;
 
-            case '2':
-                in = fopen("student.dat", "r");
+            case 2:
+                in = fopen("student", "r");
                 printRecords(in, n);
+                fclose(in);
                 break;
 
-            case '3':
-                in = fopen("student.dat", "r");
+            case 3:
+                in = fopen("student", "r");
                 printf("Enter the roll number: ");
                 scanf("%d", &roll);
-                getRecordByRoll(roll, in, n);
+                getRecordByRoll(in, roll, n);
+                fclose(in);
                 break;
-            case '4':
-                in = fopen("student.dat", "r");
-                printf("Enter the grade: ");
-                scanf("%c", &grade);
+            case 4:
+                in = fopen("student", "r");
+                printf("Enter the grade:");
+                scanf(" %c", &grade);
                 grade = toupper(grade);
                 getRecordByGrade(grade, in, n);
+                fclose(in);
                 break;
-            case '5':
-                in = fopen("student.dat", "r");
+            case 5:
+                in = fopen("student", "r+");
                 printf("Enter the roll number for the record to be updated: ");
                 scanf("%d", &roll);
                 updateRecordByRoll(roll, in, n);
+                fclose(in);
                 break;
-            case '0':
+            case 0:
                 exit(0);
             default:
                 printf("Invalid option\n");
                 break;
         }
     }
+    return 0;
 }

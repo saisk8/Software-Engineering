@@ -1,18 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int getRecordByRoll(int roll, FILE *in, int n) {
-    struct Student *student;
+int getRecordByRoll(FILE *in, int roll, int n) {
+    struct Student *student = malloc(sizeof(struct Student));
     for (int i = 0; i < n; i++) {
         fread(student, sizeof(struct Student), 1, in);
         if (student->rollNumber == roll) {
             printf("Record Found!\n*********************\n");
             printf("Name: %s", student->name);
-            printf("Age: %d\nRoll Number: %d", student->age,
+            printf("Age: %d\nRoll Number: %d\n", student->age,
                    student->rollNumber);
             printf("Address:\n-------------------------------\n");
             printf("Street: %s\nCity: %s\nState: %s\n", student->address.street,
                    student->address.city, student->address.state);
+            printf("M1 = %f, M2 = %f, Avg = %f, Total = %f, Grade: %c\n",
+                   student->m1, student->m2, student->avg, student->total,
+                   student->grade);
             printf("\n\n");
             return 1;
         }
@@ -23,18 +26,21 @@ int getRecordByRoll(int roll, FILE *in, int n) {
 
 int getRecordByGrade(char grade, FILE *in, int n) {
     int found = 0;
-    struct Student *student;
+    struct Student *student = malloc(sizeof(struct Student));
     for (int i = 0; i < n; i++) {
         fread(student, sizeof(struct Student), 1, in);
         if (student->grade == grade) {
             found = 1;
             printf("Record Found!\n*********************\n");
-            printf("Name: %s", student->name);
-            printf("Age: %d\nRoll Number: %d", student->age,
+            printf("Name: %s\n", student->name);
+            printf("Age: %d\nRoll Number: %d\n", student->age,
                    student->rollNumber);
             printf("Address:\n-------------------------------\n");
             printf("Street: %s\nCity: %s\nState: %s\n", student->address.street,
                    student->address.city, student->address.state);
+            printf("M1 = %f, M2 = %f, Avg = %f, Total = %f, Grade: %c\n",
+                   student->m1, student->m2, student->avg, student->total,
+                   student->grade);
             printf("\n\n");
         }
     }
@@ -47,7 +53,7 @@ int getRecordByGrade(char grade, FILE *in, int n) {
 }
 
 int updateRecordByRoll(int roll, FILE *in, int n) {
-    struct Student *student;
+    struct Student *student = malloc(sizeof(struct Student));
     for (int i = 0; i < n; i++) {
         fread(student, sizeof(struct Student), 1, in);
         if (student->rollNumber == roll) {
@@ -55,9 +61,9 @@ int updateRecordByRoll(int roll, FILE *in, int n) {
             printf("Enter the name: ");
             scanf("%s", student->name);
             printf("Enter the age and roll number: ");
-            scanf("%d %d", student->age, student->rollNumber);
+            scanf("%d %d", &student->age, &student->rollNumber);
             printf("Enter the marks in two subjects: ");
-            scanf("%f %f", student->m1, student->m2);
+            scanf("%f %f", &student->m1, &student->m2);
             printf("Enter the street name: ");
             scanf("%s", student->address.street);
             printf("Enter the City: ");
@@ -84,12 +90,15 @@ int updateRecordByRoll(int roll, FILE *in, int n) {
             fseek(in, -sizeof(struct Student), SEEK_CUR);
             fwrite(student, sizeof(struct Student), 1, in);
             printf("Record Updated!\n*********************\n");
-            printf("Name: %s", student->name);
-            printf("Age: %d\nRoll Number: %d", student->age,
+            printf("Name: %s\n", student->name);
+            printf("Age: %d\nRoll Number: %d\n", student->age,
                    student->rollNumber);
             printf("Address:\n-------------------------------\n");
             printf("Street: %s\nCity: %s\nState: %s\n", student->address.street,
                    student->address.city, student->address.state);
+            printf("M1 = %f, M2 = %f, Avg = %f, Total = %f, Grade: %c\n",
+                   student->m1, student->m2, student->avg, student->total,
+                   student->grade);
             printf("\n\n");
             return 1;
         }
